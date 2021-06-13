@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>repl.it</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <h1>What I Can Do</h1>
-    <p class="timeContainer"></p>
-    <form class="nameContainer" action="">
-      <p>What is your name?</p><p class="helloUser hide"></p><input type="text" placeholder="입력 후 enter를 눌러주세요">
-    </form>
-    <ul class="toDoList"></ul>
-    <script src="script.js"></script>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Welcome!</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <h1>What I Can Do</h1>
+  <p class="timeContainer"></p>
+  <form class="nameContainer" action="">
+    <p>What is your name?</p>
+    <p class="helloUser hide"></p><input type="text" placeholder="이름 입력 후 enter를 눌러주세요">
+  </form>
+  <form class="toDoContainer" action="">
+    <input type="text" placeholder="할 일 입력 후 enter를 눌러주세요">
+  </form>
+  <p>할 일 목록</p>
+  <ul class="toDoList"></ul>
+  <p>완료 목록</p>
+  <ul class="doneList"></ul>
+  <script src="greeting.js"></script>
+  <script src="todolist.js"></script>
+</body>
+<!-- 좀 더 시멘틱하게 구조를 짤 수 있으면 좋겠다. -->
+
 </html>
