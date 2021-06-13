@@ -68,7 +68,6 @@ function writeToDo(toDo) {
   li.appendChild(delBtn);
   li.id = newId;
   toDoList.appendChild(li);
-  /* 아니 이렇게 해서 li에 span이랑 btn이 누적되고 생성된다는게 되게 신기하네? */
   PENDING.push(toDoObj);
   saveDo();
 }

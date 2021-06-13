@@ -31,3 +31,11 @@ li{
 .clicked {
   color: #7f8c8d;
 }
+
+.bgImg{
+  z-index: -10;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
