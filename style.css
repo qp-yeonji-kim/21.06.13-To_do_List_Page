@@ -1,9 +1,18 @@
 body {
   font-family: sans-serif;
+  transition: color .5s ease-in-out;
 }
 
 * {
   text-align: center;
+}
+
+button{
+  cursor: pointer;
+}
+
+li{
+  list-style: none;
 }
 
 .timeContainer > *{
@@ -19,6 +28,6 @@ body {
   display: none;
 }
 
-li{
-  list-style: none;
+.clicked {
+  color: #7f8c8d;
 }
