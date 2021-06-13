@@ -1,51 +1,129 @@
-const toDoContainer = document.querySelector('.toDoContainer'),
-toDoInput = toDoContainer.querySelector('input'),
-toDoList = document.querySelector('.toDoList'),
-doneList = document.querySelector('.doneList');
+const toDoForm = document.querySelector(".toDoForm"),
+  toDoInput = toDoForm.querySelector("input"),
+  toDoList = document.querySelector(".toDoList"),
+  finishList = document.querySelector(".finishList");
+let PENDING = [],
+  FINISHED = [];
 
-function writeToDo(){
-  const li = document.createElement('li'),
-    text = document.createTextNode(ONGOING),
-    delBtn = document.createElement('button');
-  delBtn.innerText = '❌';
-  delBtn.addEventListener('click', deleteToDo);
-  li.appendChild(text);
-  // li.append(span, deleteBtn); 이 방법도 있네?
-  //span은 꼭 안만들어도 되지 않을까..
-  // li.id = task.id 흠 이건 뭐지
-  toDoList.appendChild(li);
+function finishToDo(event) {
+  const btn = event.target,
+    li = btn.parentNode,
+    done = li.firstChild.innerText;
+  deleteToDo(event);
+  writeDone(done);
 }
 
-function submitToDo(e){
-  e.preventDefault();
+function cancelDone(event) {
+  const btn = event.target,
+    li = btn.parentNode,
+    toDo = li.firstChild.innerText;
+  deleteFinish(event);
+  writeToDo(toDo);
+}
+
+function deleteToDo(event) {
+  const btn = event.target,
+    li = btn.parentNode;
+  toDoList.removeChild(li);
+  const cleanToDo = PENDING.filter(function (toDo) {
+    return toDo.id !== parseInt(li.id);
+  });
+  PENDING = cleanToDo;
+  saveDo();
+}
+
+function deleteFinish(event) {
+  const btn = event.target,
+    li = btn.parentNode;
+  finishList.removeChild(li);
+  const cleanDone = FINISHED.filter(function (done) {
+    return done.id !== parseInt(li.id);
+  });
+  FINISHED = cleanDone;
+  saveDo();
+}
+
+function saveDo() {
+  localStorage.setItem("PENDING", JSON.stringify(PENDING));
+  localStorage.setItem("FINISHED", JSON.stringify(FINISHED));
+}
+
+function writeToDo(toDo) {
+  const li = document.createElement("li"),
+    span = document.createElement("span"),
+    finBtn = document.createElement("button"),
+    delBtn = document.createElement("button");
+  finBtn.addEventListener("click", finishToDo);
+  delBtn.addEventListener("click", deleteToDo);
+  let newId = PENDING.length + 1,
+    toDoObj = {
+      PENDING: toDo,
+      id: newId
+    };
+  span.innerText = toDo;
+  finBtn.innerText = "⭕";
+  delBtn.innerText = "❌";
+  li.appendChild(span);
+  li.appendChild(finBtn);
+  li.appendChild(delBtn);
+  li.id = newId;
+  toDoList.appendChild(li);
+  /* 아니 이렇게 해서 li에 span이랑 btn이 누적되고 생성된다는게 되게 신기하네? */
+  PENDING.push(toDoObj);
+  saveDo();
+}
+
+function writeDone(toDo) {
+  const li = document.createElement("li"),
+    span = document.createElement("span"),
+    cancelBtn = document.createElement("button"),
+    delBtn = document.createElement("button");
+  cancelBtn.addEventListener("click", cancelDone);
+  delBtn.addEventListener("click", deleteFinish);
+  let newId = FINISHED.length + 1,
+    toDoObj = {
+      FINISHED: toDo,
+      id: newId
+    };
+  span.innerText = toDo;
+  cancelBtn.innerText = "🚫";
+  delBtn.innerText = "❌";
+  li.appendChild(span);
+  li.appendChild(cancelBtn);
+  li.appendChild(delBtn);
+  li.id = newId;
+  finishList.appendChild(li);
+  FINISHED.push(toDoObj);
+  saveDo();
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
   const submittedToDo = toDoInput.value;
   writeToDo(submittedToDo);
   toDoInput.value = "";
 }
 
-function loadTask(){
-  let ONGOING = localStorage.getItem('ONGOING'),
-    FINISHED = localStorage.getItem('FINISHED');
-  if(ONGOING) {
-    let parsedToDo = JSON.parse(ONGOING);
-    parsedToDo.forEach(function (inputText){
-      loadToDo(inputText.ONGOING);
+function loadToDo() {
+  const loadedToDo = localStorage.getItem("PENDING"),
+    loadedFinDo = localStorage.getItem("FINISHED");
+  if (loadedToDo !== null) {
+    const parsedToDo = JSON.parse(loadedToDo);
+    parsedToDo.forEach(function (inputText) {
+      writeToDo(inputText.PENDING);
     });
   }
-  if(FINISHED) {
-    let parsedDone = JSON.parse(FINISHED);
-    parsedDone.forEach(function (inputText){
-      loadToDo(inputText.FINISHED);
+  if (loadedFinDo !== null) {
+    const parsedFinDo = JSON.parse(loadedFinDo);
+    parsedFinDo.forEach(function (inputText) {
+      writeDone(inputText.FINISHED);
     });
   }
-};
-
-function init(){
-  loadTask();
-  toDoContainer.addEventListener("submit", submitToDo);
 }
 
-/* 
-그 떄 createElement을 써서 만들었던 것 같은데 굉장히 복잡하게 만들었네? 
-코드가 길어질까봐 그랬던 것 같기도
-*/
+function init() {
+  loadToDo();
+  toDoForm.addEventListener("submit", handleSubmit);
+}
+
+init();
