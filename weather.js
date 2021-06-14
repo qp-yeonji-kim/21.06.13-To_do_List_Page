@@ -1,5 +1,4 @@
 const weather = document.querySelector('.js-weather');
-
 const API_KEY = 'bdb153c040f4382f74bc04512c12e7d7';
 const COORDS = 'coords';
 
@@ -28,7 +27,7 @@ function handleGeoSuccess(position){
 		longitude
 	};
 	saveCoords(coordsObj);
-	getWeather(latitude, longitutde);
+	getWeather(latitude, longitude);
 }
 
 function handleGeoError(){
