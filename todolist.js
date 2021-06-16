@@ -1,7 +1,7 @@
 const toDoForm = document.querySelector(".toDoForm"),
   toDoInput = toDoForm.querySelector("input"),
   toDoList = document.querySelector(".toDoList"),
-  finishList = document.querySelector(".finishList");
+  doneList = document.querySelector(".doneList");
 let PENDING = [],
   FINISHED = [];
 
@@ -35,7 +35,7 @@ function deleteToDo(event) {
 function deleteFinish(event) {
   const btn = event.target,
     li = btn.parentNode;
-  finishList.removeChild(li);
+  doneList.removeChild(li);
   const cleanDone = FINISHED.filter(function (done) {
     return done.id !== parseInt(li.id);
   });
@@ -91,7 +91,7 @@ function writeDone(toDo) {
   li.appendChild(cancelBtn);
   li.appendChild(delBtn);
   li.id = newId;
-  finishList.appendChild(li);
+  doneList.appendChild(li);
   FINISHED.push(toDoObj);
   saveDo();
 }

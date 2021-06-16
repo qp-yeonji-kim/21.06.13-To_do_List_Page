@@ -1,7 +1,7 @@
 const timeContainer = document.querySelector('.timeContainer'),
-  nameContainer = document.querySelector('.nameContainer'),
-  questionName = nameContainer.querySelector('p'),
-  answerName = nameContainer.querySelector('input'),
+  nameForm = document.querySelector('.nameForm'),
+  questionName = nameForm.querySelector('p'),
+  answerName = nameForm.querySelector('input'),
   helloUser = document.querySelector('.helloUser'),
   days = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -32,7 +32,7 @@ function sayHello(username){
 }
 
 function askName(){
-  nameContainer.addEventListener('submit', function(event){
+  nameForm.addEventListener('submit', function(event){
     event.preventDefault();
     let userName = answerName.value;
     if(userName){
